@@ -7,6 +7,9 @@ app = Flask(__name__)
 model = pickle.load(open("model.pkl", "rb"))
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
+# ✅ ADD THIS (store logs)
+logs = []
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     result = ""
@@ -16,7 +19,6 @@ def home():
 
         # Convert input to vector
         input_data = vectorizer.transform([user_input])
-
         prediction = model.predict(input_data)[0]
 
         if prediction == 1:
@@ -24,7 +26,14 @@ def home():
         else:
             result = "✅ Safe"
 
-    return render_template("index.html", result=result)
+        # ✅ ADD THIS (save logs)
+        logs.append({
+            "text": user_input,
+            "result": result
+        })
+
+    # ✅ PASS logs to HTML
+    return render_template("index.html", result=result, logs=logs)
 
 if __name__ == "__main__":
     app.run(debug=True)
