@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyber AI Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🛡️ Cybersecurity Threat Detection</h1>
+
+    <form method="POST">
+        <textarea name="text" placeholder="Enter system log..." required></textarea>
+        <br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+        <div class="result {{ color }}">
+            {{ result }}
+        </div>
+    {% endif %}
+
+    <h2>📊 Activity Logs</h2>
+
+    <div class="logs">
+        {% for log in logs %}
+            <div class="log-box">
+                <p>{{ log.text }}</p>
+                <span>{{ log.result }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>
